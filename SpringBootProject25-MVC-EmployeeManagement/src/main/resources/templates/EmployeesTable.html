@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Employee </title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+	
+</head>
+<body>
+   
+    
+    <div class="container">
+    	<div class="card-header bg-secondary text-white text-center p-2">
+    		<h2>EMPLOYEE'S DATA</h2>
+    	</div>
+    	<div class="my-2"> <a href="http://localhost:8080/employee/register"><button class="btn btn-primary">Add Employee</button></a></div>
+    	<div class="card-body">
+    		<table class="table table-hover table-striped mt-4 fs-5">
+    			<tr >
+    				<th >Id </th>
+    				<th>Name </th>
+    				<th>Gender </th>
+    				<th>D.O.J </th>
+    				<th>Salary</th>
+    				<th>HRA </th>
+    				<th>TA </th>
+    				<th>Department </th>
+    				<th>Operations </th>
+    				<th>Address </th>
+    			</tr>
+    			
+    			<tr  th:each="item:${list}">
+    				<td th:text="${item.empId}"></td>
+    				<td th:text="${item.empName}"></td>
+    				<td th:text="${item.empGender}"></td>
+    				<td th:text="${item.empDateOfJoining}"></td>
+    				<td th:text="${item.empSalary}"></td>
+    				<td th:text="${item.empHRA}"></td>
+    				<td th:text="${item.empTA}"></td>
+    				<td th:text="${item.empDepartment}"></td>
+    				<td th:text="${item.empAddress}"></td>
+    				<td>
+    					<a th:href="@{/employee/delete(id=${item.empId})}"> <button class="btn btn-danger ms-2" >Delete</button></a>	
+    					<a th:href="@{/employee/edit(id=${item.empId})}"> <button class="btn btn-warning ms-2">Edit</button> </a>
+    				</td>
+    			</tr>
+    		</table>
+    	</div>
+    	
+    	<div th:if="${message}" class="bg-secondary text-white text-center h-20 p-3">
+            <h2 >Task Updated</h2>
+            <b th:text="${message}"></b>
+        </div>
+    	</div>
+    	
+    	<div>
+    		<ul class="pagination justify-content-center">
+  				<li class="page-item"><a class="page-link" th:if="${page.hasPrevious()}" th:href="@{/employee/allEmployees(page=${page.getNumber()-1})}">Previous</a></li>
+  				<th:block th:each="i: ${#numbers.sequence(0,page.getTotalPages()-1)}">
+  				<div th:switch="${i}">
+  					<div th:case="${page.getNumber()}">
+  						<li class="page-item active">
+  							<a class="page-link" th:href="@{/employee/allEmployees(page=${i})}" th:text="${i+1}"></a>
+  						</li>
+  					</div>
+  					<div th:case="*">
+  						<li class="page-item "><a class="page-link" th:href="@{/employee/allEmployees(page=${i})}" th:text="${i+1}"></a></li>
+  					</div>
+  					
+  				</div>
+  				</th:block>
+  				<li class="page-item"><a class="page-link" th:if="${page.hasNext()}" th:href="@{/employee/allEmployees(page=${page.getNumber()+1})}">Next</a></li>
+			</ul>
+    	</div>
+    
+    </div>
+</body>
+</html>
